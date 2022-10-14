@@ -7,6 +7,7 @@ const prodConfig = {
   mode: 'production',
   output: {
     filename: '[name].[contenthash].js',
+    publicPath: '/marketing/latest/'
   },
   plugins: [
     // Note: Since webpack.dev & webpack.prod plugins are the same could move into webpack.common, but there may
