@@ -11,6 +11,8 @@ const prodConfig = {
   output: {
     // Note: Insures webpack outputs files with that start with the name of the file, a hash of the contents of file (solves caching issues)
     filename: '[name].[contenthash].js',
+    // Note: Used by webpack that tries to refer to a file that has been built by webpack (e.g. HtmlPlugin tries to refer to js file, it will prepend the publicPath to all of them)
+    publicPath: '/container/latest/'
   },
   plugins: [
     new ModuleFederationPlugin({
