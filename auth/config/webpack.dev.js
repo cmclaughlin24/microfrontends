@@ -1,4 +1,5 @@
 const { merge } = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
@@ -6,21 +7,24 @@ const packageJson = require('../package.json');
 const devConfig = {
   mode: 'development',
   output: {
-    publicPath: 'http://localhost:8080/'
+    publicPath: 'http://localhost:8082/',
   },
   devServer: {
-    port: 8080,
+    port: 8082,
     historyApiFallback: {
       index: '/index.html',
     },
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
     new ModuleFederationPlugin({
-      name: 'container',
-      remotes: {
-        // Note: The "marketing" before the '@' matches the name configured in the Marketing webpack.dev.js ModuleFederationPlugin
-        marketing: 'marketing@http://localhost:8081/remoteEntry.js',
-        auth: 'auth@http://localhost:8082/remoteEntry.js',
+      // Note: Used to declare a global variable in the browser upon being loaded.
+      name: 'auth',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './AuthApp': './src/bootstrap',
       },
       // Note: Shortcut to allow Webpack to handle the shared modules by importing all dependencies from package.json.
       shared: packageJson.dependencies,

@@ -6,10 +6,13 @@ const packageJson = require('../package.json');
 
 const devConfig = {
   mode: 'development',
+  output: {
+    publicPath: 'http://localhost:8081/'
+  },
   devServer: {
     port: 8081,
     historyApiFallback: {
-      index: 'index.html',
+      index: '/index.html',
     },
   },
   plugins: [
@@ -24,7 +27,8 @@ const devConfig = {
         './MarketingApp': './src/bootstrap',
       },
       // Note: Shortcut to allow Webpack to handle the shared modules by importing all dependencies from package.json.
-      shared: packageJson.dependencies,    }),
+      shared: packageJson.dependencies,
+    }),
   ],
 };
 
